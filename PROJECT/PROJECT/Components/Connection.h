@@ -18,4 +18,5 @@ public:
 	void Update(const std::vector< std::pair<int,int> >& r_Vertices);
 	virtual void Operate();
 	virtual void Draw(Interface* pInterface);
+	virtual bool IsValidToOperate();
 };

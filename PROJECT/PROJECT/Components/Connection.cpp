@@ -26,3 +26,8 @@ void Connection::Draw(Interface* pInterface)
     m_InputPin->Draw(pInterface);
     m_OutputPin->Draw(pInterface);
 }
+
+bool Connection::IsValidToOperate()
+{
+	return (m_InputPin->GetStatus() != Pin::FLOATING);
+}

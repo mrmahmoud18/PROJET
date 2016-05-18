@@ -15,7 +15,7 @@ public:
 	OutputPin* GetOutputPin();
 	virtual void Operate();
 	virtual void Draw(Interface* pInterface);
-
+	virtual bool IsValidToOperate();
 private:
     GraphicsInfo m_GfxInfo;
     std::string m_Label;

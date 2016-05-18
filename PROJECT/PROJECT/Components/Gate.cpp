@@ -14,7 +14,7 @@ void Gate::SetLabel(std::string r_Label)
     m_Label = r_Label;
 }
 
-const std::vector<InputPin>& Gate::GetInputPins()
+std::vector<InputPin>& Gate::GetInputPins()
 {
     return m_InputPins;
 }
@@ -22,4 +22,16 @@ const std::vector<InputPin>& Gate::GetInputPins()
 OutputPin* Gate::GetOutputPin()
 {
     return &m_OutputPin;
+}
+
+bool Gate::IsValidToOperate()
+{
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (m_InputPins[i].GetStatus() == Pin::FLOATING)
+		{
+			return false;
+		}
+	}
+	return true;
 }

@@ -22,6 +22,7 @@ public:
 	Gate(const GraphicsInfo &r_GfxInfo, int r_FanOut);
 	const GraphicsInfo& GetGraphicsInfo() const;
 	void SetLabel(std::string r_Label);
-    const std::vector<InputPin>& GetInputPins();
+    std::vector<InputPin>& GetInputPins();
 	OutputPin* GetOutputPin();
+	virtual bool IsValidToOperate();
 };

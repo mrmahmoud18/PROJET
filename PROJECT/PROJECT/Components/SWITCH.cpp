@@ -32,3 +32,8 @@ void SWITCH::Draw(Interface* pInterface)
     pInterface->DrawComponent(m_GfxInfo, "SWITCH", GetStatus());
     m_OutputPin.Draw(pInterface);
 }
+
+bool SWITCH::IsValidToOperate()
+{
+	return true;
+}

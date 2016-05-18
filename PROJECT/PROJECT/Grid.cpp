@@ -200,19 +200,19 @@ void Grid::AddComponent(std::pair<int, int> r_Center, Component * r_pComp)
 			std::vector<InputPin> temp = dynamic_cast<Gate*>(r_pComp)->GetInputPins();
 			if (temp.size() ==2)
 			{
-				Nodes[r_Center.first - 4 ][r_Center.second + 1].pPin = &(temp[0]);
-				Nodes[r_Center.first - 4][r_Center.second + 1].pComp = r_pComp;
-				Nodes[r_Center.first - 4][r_Center.second - 1 ].pPin = &(temp[1]);
+				Nodes[r_Center.first - 4 ][r_Center.second -1 ].pPin = &(temp[0]);
 				Nodes[r_Center.first - 4][r_Center.second - 1].pComp = r_pComp;
+				Nodes[r_Center.first - 4][r_Center.second + 1 ].pPin = &(temp[1]);
+				Nodes[r_Center.first - 4][r_Center.second + 1].pComp = r_pComp;
 			}
 			else
 			{
-				Nodes[r_Center.first - 4 ][r_Center.second + 1].pPin = &(temp[0]);
-				Nodes[r_Center.first - 4][r_Center.second + 1].pComp = r_pComp;
-				Nodes[r_Center.first - 4][r_Center.second].pPin = &(temp[1]);
-				Nodes[r_Center.first - 4][r_Center.second].pComp = r_pComp;
-				Nodes[r_Center.first - 4 ][r_Center.second - 1].pPin = &(temp[2]);
-				Nodes[r_Center.first - 4][r_Center.second - 1].pComp = r_pComp;
+				Nodes[r_Center.first - 4 ][r_Center.second - 1].pPin = &(temp[0]);
+				Nodes[r_Center.first - 4 ][r_Center.second - 1].pComp = r_pComp;
+				Nodes[r_Center.first - 4 ][r_Center.second].pPin = &(temp[1]);
+				Nodes[r_Center.first - 4 ][r_Center.second].pComp = r_pComp;
+				Nodes[r_Center.first - 4 ][r_Center.second + 1].pPin = &(temp[2]);
+				Nodes[r_Center.first - 4 ][r_Center.second + 1].pComp = r_pComp;
 			}
 		}
 	}
@@ -228,7 +228,6 @@ void Grid::AddComponent(std::pair<int, int> r_Center, Component * r_pComp)
 	}
 }
 
-// there is somthing wrong here TempX++
 void Grid::AddConnection(const std::vector< std::pair<int, int> >& Path, Component * r_pComp)
 {
 	int TempY, TempX,Count=1;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include<vector>
+#include<numeric>
 
 class Component;
 
@@ -10,5 +11,6 @@ public:
 	Simulation();
 	~Simulation();
 	static bool IsValidToSimulate(std::vector<Component*> ComponentList);
+	static void Simulate(std::vector<Component*> ComponentList);
 };
 

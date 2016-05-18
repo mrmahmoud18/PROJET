@@ -9,9 +9,9 @@ class Pin
 {
 private:
     std::pair<int,int> m_Center;
-	enum Status {LOW, HIGH, FLOATING} m_Status;
 
 public:
+	enum Status { LOW, HIGH, FLOATING } m_Status;
 	Pin(std::pair<int,int> r_Center);
 	virtual ~Pin();
 	void SetCenter(std::pair<int,int> r_Center);
