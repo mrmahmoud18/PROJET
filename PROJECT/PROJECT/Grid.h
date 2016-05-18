@@ -2,6 +2,7 @@
 
 #include<vector>
 #include<queue>
+#include<algorithm>
 
 class Component;
 class Pin;
@@ -13,7 +14,9 @@ public:
     Grid(int r_X, int r_Y);
     std::vector< std::pair<int,int> > FindPath(std::pair<int,int> Point1, std::pair<int,int> Point2);
     bool IsValidCenter(std::pair<int,int> Center);
-    void AddComponent(std::pair<int,int> Center, Component* r_pComp);
+	void AddSwitch(std::pair<int, int> r_Center, Component* r_pComp);
+	void AddLed(std::pair<int, int> r_Center, Component* r_pComp);
+	void AddGate(std::pair<int, int> r_Center, Component* r_pComp);
 	void AddConnection(const std::vector< std::pair<int,int> >& Path, Component* r_pComp);
     void DeleteComponent(std::pair<int,int> Center);
     void DeleteConnection(std::vector< std::pair<int,int> > Path);
@@ -32,7 +35,7 @@ private:
     std::vector< std::vector<Node> > Nodes;
 
 	std::vector< std::pair<int, int> > CreateThePath(std::pair<int, int> Point1, std::pair<int, int> Point2);
-	bool IsValidPoint(int r_TempX, int r_TempY, std::vector< std::vector<bool> > r_Visited);
+	bool IsValidPoint(int r_TempX, int r_TempY, bool**r_Visited);
 	bool ISValidState(int r_Tempx, int r_TempY, std::queue< Grid::Node>r_TempQueue);
 	void ClearQueue(std::queue < Grid::Node >& r_TempQueue);
 	void ClearParent();

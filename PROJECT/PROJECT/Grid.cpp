@@ -1,5 +1,4 @@
 #include "Grid.h"
-
 #include"Components/LED.h"
 #include "Components/Gate.h"
 #include "Components/SWITCH.h"
@@ -13,8 +12,22 @@ Grid::Grid(int r_x, int r_y) {
 
 std::vector< std::pair<int, int> > Grid::FindPath(std::pair<int, int> Point1, std::pair<int, int> Point2)
 {
+	int count = 0;
 	std::queue<Node> TempQueue;
-	std::vector< std::vector<bool> >Visited(Xsize, std::vector <bool>(Ysize, false));
+	//std::vector< std::vector<bool> >Visited(Xsize, std::vector <bool>(Ysize, false));
+	bool **Visited = new bool* [Xsize];
+	for (int i = 0; i < Xsize; i++)
+	{
+		Visited[i] = new bool[Ysize];
+	}
+	for (int i = 0; i < Xsize; i++)
+	{
+		for (int j = 0; j < Ysize; j++)
+		{
+			Visited[i][j] = false;
+		}
+	}
+
 	bool PathFounded = false;
 	int TempArrayX[4] = { 0,0,1,-1 }, TempArrayY[4] = { 1,-1,0,0 };
 	int Tempy, Tempx, CurrentX, CurrentY;
@@ -26,6 +39,7 @@ std::vector< std::pair<int, int> > Grid::FindPath(std::pair<int, int> Point1, st
 		CurrentY = TempQueue.front().m_Y;
 		for (int z = 0; z < 4; z++)
 		{
+			count++;
 			Tempx = TempArrayX[z] + CurrentX;
 			Tempy = TempArrayY[z] + CurrentY;
 			if (IsValidPoint(Tempx, Tempy, Visited))
@@ -52,6 +66,7 @@ std::vector< std::pair<int, int> > Grid::FindPath(std::pair<int, int> Point1, st
 			TempQueue.pop();
 		}
 	}
+	std::cout << count<<std::endl;
 	if(!PathFounded)
         throw;
     return CreateThePath(Point1, Point2);
@@ -100,7 +115,7 @@ std::vector< std::pair<int, int> > Grid::CreateThePath(std::pair<int, int> Point
 	return Path;
 }
 
-bool Grid::IsValidPoint(int r_Tempx, int r_Tempy, std::vector< std::vector<bool> > r_Visited)
+bool Grid::IsValidPoint(int r_Tempx, int r_Tempy, bool**r_Visited /*std::vector< std::vector<bool> > &r_Visited*/)
 {
 	return (r_Tempx < Xsize && r_Tempx>0 && r_Tempy < Ysize  && r_Tempy>0 && !r_Visited[r_Tempx][r_Tempy]
 		&& Nodes[r_Tempx][r_Tempy].m_Stat != Grid::Node::GATE && Nodes[r_Tempx][r_Tempy].m_Stat != Grid::Node::CONNECTIONFULL);
@@ -165,7 +180,55 @@ bool Grid::IsValidCenter(std::pair<int, int> r_componentCenter)
 	return true;
 }
 
-void Grid::AddComponent(std::pair<int, int> r_Center, Component * r_pComp)
+void Grid::AddSwitch(std::pair<int, int> r_Center, Component * r_pComp)
+{
+	for (int i = -3; i <= 3; i++)
+	{
+		for (int j = -2; j <= 2; j++)
+		{
+			Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::GATE;
+			Nodes[i + r_Center.first][j + r_Center.second].pComp = r_pComp;
+		}
+	}
+	Nodes[r_Center.first + 4][r_Center.second].m_Stat = Node::PINPOINT;
+	Nodes[r_Center.first + 4][r_Center.second].pPin = dynamic_cast<SWITCH*>(r_pComp)->GetOutputPin();
+	for (int i = -6; i <= 6; i++)
+	{
+		for (int j = -6; j <= 6; j++)
+		{
+			if (Nodes[i + r_Center.first][j + r_Center.second].m_Stat == Node::NOTHING)
+			{
+				Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::NOCONNECTION;
+			}
+		}
+	}
+}
+
+void Grid::AddLed(std::pair<int, int> r_Center, Component * r_pComp)
+{
+	for (int i = -3; i <= 3; i++)
+	{
+		for (int j = -2; j <= 2; j++)
+		{
+			Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::GATE;
+			Nodes[i + r_Center.first][j + r_Center.second].pComp = r_pComp;
+		}
+	}
+	Nodes[r_Center.first - 4][r_Center.second].m_Stat = Node::PINPOINT;
+	Nodes[r_Center.first - 4][r_Center.second].pPin = dynamic_cast<LED*>(r_pComp)->GetInputPin();
+	for (int i = -6; i <= 6; i++)
+	{
+		for (int j = -6; j <= 6; j++)
+		{
+			if (Nodes[i + r_Center.first][j + r_Center.second].m_Stat == Node::NOTHING)
+			{
+				Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::NOCONNECTION;
+			}
+		}
+	}
+}
+
+void Grid::AddGate(std::pair<int, int> r_Center, Component * r_pComp)
 {
 	for (int i = -3; i <= 3; i++)
 	{
@@ -176,45 +239,45 @@ void Grid::AddComponent(std::pair<int, int> r_Center, Component * r_pComp)
 		}
 	}
 
-	if (dynamic_cast<LED*>(r_pComp))
+	Nodes[r_Center.first + 4][r_Center.second].m_Stat = Node::PINPOINT;
+	Nodes[r_Center.first - 4][r_Center.second].m_Stat = Node::PINPOINT;
+	Nodes[r_Center.first - 4][r_Center.second + 1].m_Stat = Node::PINPOINT;
+	Nodes[r_Center.first - 4][r_Center.second - 1].m_Stat = Node::PINPOINT;
+
+	Nodes[r_Center.first + 4][r_Center.second].pPin = dynamic_cast<Gate*>(r_pComp)->GetOutputPin();
+	Nodes[r_Center.first + 4][r_Center.second].pComp = r_pComp;
+	std::vector<InputPin>& temp = dynamic_cast<Gate*>(r_pComp)->GetInputPins();
+	std::vector<InputPin>::iterator min = temp.begin();
+	std::vector<InputPin>::iterator it = temp.begin();
+	for (unsigned int i = 1; i < temp.size(); i++)
 	{
-		Nodes[r_Center.first -4][r_Center.second ].m_Stat = Node::PINPOINT;
-		Nodes[r_Center.first -4][r_Center.second ].pPin = dynamic_cast<LED*>(r_pComp)->GetInputPin();
+		while (it != temp.end())
+		{
+			if (min->GetCenter().first > it->GetCenter().first)
+			{
+				min = it;
+			}
+			it++;
+		}
+		std::swap(min, temp.begin()+i);
+		min = it = temp.begin() + i;
+	}
+
+	if (temp.size() == 2)
+	{
+		Nodes[r_Center.first - 4][r_Center.second - 1].pPin = &(temp[0]);
+		Nodes[r_Center.first - 4][r_Center.second - 1].pComp = r_pComp;
+		Nodes[r_Center.first - 4][r_Center.second + 1].pPin = &(temp[1]);
+		Nodes[r_Center.first - 4][r_Center.second + 1].pComp = r_pComp;
 	}
 	else
 	{
-		if (dynamic_cast<SWITCH*>(r_pComp))
-		{
-			Nodes[r_Center.first + 4 ][r_Center.second].m_Stat = Node::PINPOINT;
-			Nodes[r_Center.first + 4 ][r_Center.second].pPin = dynamic_cast<SWITCH*>(r_pComp)->GetOutputPin();
-		}
-		else
-		{
-			Nodes[r_Center.first + 4 ][r_Center.second].m_Stat = Node::PINPOINT;
-			Nodes[r_Center.first - 4 ][r_Center.second].m_Stat = Node::PINPOINT;
-			Nodes[r_Center.first - 4 ][r_Center.second + 1].m_Stat = Node::PINPOINT;
-			Nodes[r_Center.first - 4 ][r_Center.second - 1].m_Stat = Node::PINPOINT;
-
-			Nodes[r_Center.first + 4 ][r_Center.second].pPin = dynamic_cast<Gate*>(r_pComp)->GetOutputPin();
-			Nodes[r_Center.first + 4][r_Center.second].pComp = r_pComp;
-			std::vector<InputPin> temp = dynamic_cast<Gate*>(r_pComp)->GetInputPins();
-			if (temp.size() ==2)
-			{
-				Nodes[r_Center.first - 4 ][r_Center.second -1 ].pPin = &(temp[0]);
-				Nodes[r_Center.first - 4][r_Center.second - 1].pComp = r_pComp;
-				Nodes[r_Center.first - 4][r_Center.second + 1 ].pPin = &(temp[1]);
-				Nodes[r_Center.first - 4][r_Center.second + 1].pComp = r_pComp;
-			}
-			else
-			{
-				Nodes[r_Center.first - 4 ][r_Center.second - 1].pPin = &(temp[0]);
-				Nodes[r_Center.first - 4 ][r_Center.second - 1].pComp = r_pComp;
-				Nodes[r_Center.first - 4 ][r_Center.second].pPin = &(temp[1]);
-				Nodes[r_Center.first - 4 ][r_Center.second].pComp = r_pComp;
-				Nodes[r_Center.first - 4 ][r_Center.second + 1].pPin = &(temp[2]);
-				Nodes[r_Center.first - 4 ][r_Center.second + 1].pComp = r_pComp;
-			}
-		}
+		Nodes[r_Center.first - 4][r_Center.second - 1].pPin = &(temp[0]);
+		Nodes[r_Center.first - 4][r_Center.second - 1].pComp = r_pComp;
+		Nodes[r_Center.first - 4][r_Center.second].pPin = &(temp[1]);
+		Nodes[r_Center.first - 4][r_Center.second].pComp = r_pComp;
+		Nodes[r_Center.first - 4][r_Center.second + 1].pPin = &(temp[2]);
+		Nodes[r_Center.first - 4][r_Center.second + 1].pComp = r_pComp;
 	}
 	for (int i = -6; i <= 6; i++)
 	{
@@ -300,9 +363,7 @@ void Grid::DeleteComponent(std::pair<int, int> r_componentCenter)
 				Nodes[i + r_componentCenter.second][j + r_componentCenter.first].pComp = NULL;
 				Nodes[i + r_componentCenter.second][j + r_componentCenter.first].pPin = NULL;
 			}
-
 		}
-
 	}
 }
 

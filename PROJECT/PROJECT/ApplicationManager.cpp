@@ -19,10 +19,12 @@ ApplicationManager::ApplicationManager(): SimGrid(360, 360)
     SimGrid.AddComponent(std::pair<int,int>(16,16), Components[0]);
    // Components.push_back(new AND2(GraphicsInfo(30,30,12,12)));
    // SimGrid.AddComponent(std::pair<int,int>(36,36), Components[1]);
-	Pin* p = SimGrid.GetPin(std::pair<int, int>(20, 16));
-	p = SimGrid.GetPin(std::pair<int, int>(12, 17));
-	p = SimGrid.GetPin(std::pair<int, int>(12, 15));
-    Components.push_back(new Connection(SimGrid.GetPin(std::pair<int,int>(20,16)), SimGrid.GetPin(std::pair<int,int>(32,35)), SimGrid.FindPath(std::pair<int,int>(20,16),std::pair<int,int>(32,35))));
+	//Pin* p = SimGrid.GetPin(std::pair<int, int>(20, 16));
+	//p = SimGrid.GetPin(std::pair<int, int>(12, 17));
+	//p = SimGrid.GetPin(std::pair<int, int>(12, 15));
+    //Components.push_back(new Connection(SimGrid.GetPin(std::pair<int,int>(20,16)), SimGrid.GetPin(std::pair<int,int>(32,35)), SimGrid.FindPath(std::pair<int,int>(20,16),std::pair<int,int>(32,35))));
+	std::vector< std::pair<int, int> >v = SimGrid.FindPath(std::make_pair(20, 16), std::make_pair(32, 35));
+
 }
 
 
