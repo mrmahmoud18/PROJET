@@ -19,4 +19,5 @@ public:
 	virtual void Operate();
 	virtual void Draw(Interface* pInterface);
 	virtual bool IsValidToOperate();
+	virtual void ClearStatus();
 };

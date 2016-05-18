@@ -35,3 +35,12 @@ bool Gate::IsValidToOperate()
 	}
 	return true;
 }
+
+void Gate::ClearStatus()
+{
+	m_OutputPin.SetStatus(Pin::FLOATING);
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		m_InputPins[i].SetStatus(Pin::FLOATING);
+	}
+}

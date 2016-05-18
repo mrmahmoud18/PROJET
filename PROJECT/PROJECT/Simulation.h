@@ -12,5 +12,6 @@ public:
 	~Simulation();
 	static bool IsValidToSimulate(std::vector<Component*> ComponentList);
 	static void Simulate(std::vector<Component*> ComponentList);
+	static void ClearStatus(std::vector<Component*> ComponentList);
 };
 

@@ -25,4 +25,5 @@ public:
     std::vector<InputPin>& GetInputPins();
 	OutputPin* GetOutputPin();
 	virtual bool IsValidToOperate();
+	virtual void ClearStatus();
 };

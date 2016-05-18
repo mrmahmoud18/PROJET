@@ -37,3 +37,8 @@ bool LED::IsValidToOperate()
 {
 	return (m_InputPin.GetStatus() != Pin::FLOATING);
 }
+
+void LED::ClearStatus()
+{
+	m_InputPin.SetStatus(Pin::FLOATING);
+}

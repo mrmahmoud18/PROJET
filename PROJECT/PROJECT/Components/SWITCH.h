@@ -16,6 +16,7 @@ public:
 	virtual void Operate();
 	virtual void Draw(Interface* pInterface);
 	virtual bool IsValidToOperate();
+	virtual void ClearStatus();
 private:
     GraphicsInfo m_GfxInfo;
     std::string m_Label;

@@ -31,3 +31,9 @@ bool Connection::IsValidToOperate()
 {
 	return (m_InputPin->GetStatus() != Pin::FLOATING);
 }
+
+void Connection::ClearStatus()
+{
+	m_InputPin->SetStatus(Pin::FLOATING);
+	m_OutputPin->SetStatus(Pin::FLOATING);
+}

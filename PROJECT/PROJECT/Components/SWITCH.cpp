@@ -37,3 +37,8 @@ bool SWITCH::IsValidToOperate()
 {
 	return true;
 }
+
+void SWITCH::ClearStatus()
+{
+	m_OutputPin.SetStatus(Pin::FLOATING);
+}
