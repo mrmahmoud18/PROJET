@@ -16,7 +16,6 @@
 ApplicationManager::ApplicationManager(): SimGrid(360, 360)
 {
     Components.push_back(new AND2(GraphicsInfo(10,10,12,12)));
-    SimGrid.AddComponent(std::pair<int,int>(16,16), Components[0]);
    // Components.push_back(new AND2(GraphicsInfo(30,30,12,12)));
    // SimGrid.AddComponent(std::pair<int,int>(36,36), Components[1]);
 	//Pin* p = SimGrid.GetPin(std::pair<int, int>(20, 16));

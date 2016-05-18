@@ -12,7 +12,6 @@ Grid::Grid(int r_x, int r_y) {
 
 std::vector< std::pair<int, int> > Grid::FindPath(std::pair<int, int> Point1, std::pair<int, int> Point2)
 {
-	int count = 0;
 	std::queue<Node> TempQueue;
 	//std::vector< std::vector<bool> >Visited(Xsize, std::vector <bool>(Ysize, false));
 	bool **Visited = new bool* [Xsize];
@@ -39,7 +38,6 @@ std::vector< std::pair<int, int> > Grid::FindPath(std::pair<int, int> Point1, st
 		CurrentY = TempQueue.front().m_Y;
 		for (int z = 0; z < 4; z++)
 		{
-			count++;
 			Tempx = TempArrayX[z] + CurrentX;
 			Tempy = TempArrayY[z] + CurrentY;
 			if (IsValidPoint(Tempx, Tempy, Visited))
@@ -66,7 +64,6 @@ std::vector< std::pair<int, int> > Grid::FindPath(std::pair<int, int> Point1, st
 			TempQueue.pop();
 		}
 	}
-	std::cout << count<<std::endl;
 	if(!PathFounded)
         throw;
     return CreateThePath(Point1, Point2);
@@ -180,7 +177,7 @@ bool Grid::IsValidCenter(std::pair<int, int> r_componentCenter)
 	return true;
 }
 
-void Grid::AddSwitch(std::pair<int, int> r_Center, Component * r_pComp)
+void Grid::AddSwitch(std::pair<int, int> r_Center, SWITCH * r_pComp)
 {
 	for (int i = -3; i <= 3; i++)
 	{
@@ -191,7 +188,7 @@ void Grid::AddSwitch(std::pair<int, int> r_Center, Component * r_pComp)
 		}
 	}
 	Nodes[r_Center.first + 4][r_Center.second].m_Stat = Node::PINPOINT;
-	Nodes[r_Center.first + 4][r_Center.second].pPin = dynamic_cast<SWITCH*>(r_pComp)->GetOutputPin();
+	Nodes[r_Center.first + 4][r_Center.second].pPin = r_pComp ->GetOutputPin();
 	for (int i = -6; i <= 6; i++)
 	{
 		for (int j = -6; j <= 6; j++)
@@ -204,7 +201,7 @@ void Grid::AddSwitch(std::pair<int, int> r_Center, Component * r_pComp)
 	}
 }
 
-void Grid::AddLed(std::pair<int, int> r_Center, Component * r_pComp)
+void Grid::AddLed(std::pair<int, int> r_Center, LED * r_pComp)
 {
 	for (int i = -3; i <= 3; i++)
 	{
@@ -215,7 +212,7 @@ void Grid::AddLed(std::pair<int, int> r_Center, Component * r_pComp)
 		}
 	}
 	Nodes[r_Center.first - 4][r_Center.second].m_Stat = Node::PINPOINT;
-	Nodes[r_Center.first - 4][r_Center.second].pPin = dynamic_cast<LED*>(r_pComp)->GetInputPin();
+	Nodes[r_Center.first - 4][r_Center.second].pPin = r_pComp->GetInputPin();
 	for (int i = -6; i <= 6; i++)
 	{
 		for (int j = -6; j <= 6; j++)
@@ -228,7 +225,7 @@ void Grid::AddLed(std::pair<int, int> r_Center, Component * r_pComp)
 	}
 }
 
-void Grid::AddGate(std::pair<int, int> r_Center, Component * r_pComp)
+void Grid::AddGate(std::pair<int, int> r_Center, Gate * r_pComp)
 {
 	for (int i = -3; i <= 3; i++)
 	{
@@ -244,7 +241,7 @@ void Grid::AddGate(std::pair<int, int> r_Center, Component * r_pComp)
 	Nodes[r_Center.first - 4][r_Center.second + 1].m_Stat = Node::PINPOINT;
 	Nodes[r_Center.first - 4][r_Center.second - 1].m_Stat = Node::PINPOINT;
 
-	Nodes[r_Center.first + 4][r_Center.second].pPin = dynamic_cast<Gate*>(r_pComp)->GetOutputPin();
+	Nodes[r_Center.first + 4][r_Center.second].pPin = r_pComp->GetOutputPin();
 	Nodes[r_Center.first + 4][r_Center.second].pComp = r_pComp;
 	std::vector<InputPin>& temp = dynamic_cast<Gate*>(r_pComp)->GetInputPins();
 	std::vector<InputPin>::iterator min = temp.begin();

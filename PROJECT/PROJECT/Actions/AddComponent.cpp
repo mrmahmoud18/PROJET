@@ -127,7 +127,7 @@ void AddComponent::Execute()
 		break;
 	}
 	pManager->GetComponents().push_back(pComp);
-	pManager->GetGrid()->AddComponent(Center, pComp);
+	//pManager->GetGrid()->AddComponent(Center, pComp);
 }
 
 void AddComponent::Undo()
@@ -139,5 +139,5 @@ void AddComponent::Undo()
 void AddComponent::Redo()
 {
 	pManager->GetComponents().push_back(pComp);
-	pManager->GetGrid()->AddComponent(Center, pComp);
+	//pManager->GetGrid()->AddComponent(Center, pComp);
 }
