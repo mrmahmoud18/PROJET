@@ -27,3 +27,8 @@ void OutputPin::Draw(Interface* pInterface)
 {
     pInterface->DrawPin(GetCenter(), m_Connections.size() != 0);
 }
+
+bool OutputPin::IsValidToSimulate()
+{
+	return (m_Connections.size() != 0);
+}

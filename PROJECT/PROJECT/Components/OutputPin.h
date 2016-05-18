@@ -18,4 +18,5 @@ public:
 	virtual void ConnectTo(Connection* r_Connection);
 	virtual void DeconnectFrom(Connection* r_Connection);
 	virtual void Draw(Interface* pInterface);
+	virtual bool IsValidToSimulate();
 };

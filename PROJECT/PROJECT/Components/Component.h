@@ -13,6 +13,7 @@ public:
 	virtual void Operate()=0;
 	virtual void Draw(Interface* pInterface)=0;
 	virtual bool IsValidToOperate()=0;
+	virtual bool IsValidToSimulate() = 0;
 	virtual void ClearStatus() = 0;
 private:
 	Status m_Status;

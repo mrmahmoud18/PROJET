@@ -22,4 +22,5 @@ public:
 	virtual void ConnectTo(Connection* r_Connection)=0;
 	virtual void DeconnectFrom(Connection* r_Connection)=0;
 	virtual void Draw(Interface* pInterface)=0;
+	virtual bool IsValidToSimulate() = 0;
 };

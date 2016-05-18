@@ -38,6 +38,11 @@ bool SWITCH::IsValidToOperate()
 	return true;
 }
 
+bool SWITCH::IsValidToSimulate()
+{
+	return m_OutputPin.IsValidToSimulate() ;
+}
+
 void SWITCH::ClearStatus()
 {
 	m_OutputPin.SetStatus(Pin::FLOATING);

@@ -32,6 +32,11 @@ bool Connection::IsValidToOperate()
 	return (m_InputPin->GetStatus() != Pin::FLOATING);
 }
 
+bool Connection::IsValidToSimulate()
+{
+	return true;
+}
+
 void Connection::ClearStatus()
 {
 	m_InputPin->SetStatus(Pin::FLOATING);

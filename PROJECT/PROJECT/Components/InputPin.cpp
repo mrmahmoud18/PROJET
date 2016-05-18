@@ -29,3 +29,8 @@ void InputPin::Draw(Interface* pInterface)
 {
     pInterface->DrawPin(GetCenter(), m_Connection != NULL);
 }
+
+bool InputPin::IsValidToSimulate()
+{
+	return (m_Connection != NULL);
+}

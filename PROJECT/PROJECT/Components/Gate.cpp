@@ -36,6 +36,19 @@ bool Gate::IsValidToOperate()
 	return true;
 }
 
+bool Gate::IsValidToSimulate()
+{
+	if (! m_OutputPin.IsValidToSimulate())
+	{
+		return false;
+	}
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (!m_InputPins[i].IsValidToSimulate())return false;
+	}
+	return true;
+}
+
 void Gate::ClearStatus()
 {
 	m_OutputPin.SetStatus(Pin::FLOATING);
