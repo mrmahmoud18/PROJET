@@ -11,7 +11,14 @@ OR2::OR2(const GraphicsInfo & r_GfxInfo, std::string r_Label) : Gate(r_GfxInfo, 
 
 void OR2::Operate()
 {
-
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (m_InputPins[i].GetStatus() == Pin::LOW)
+		{
+			m_OutputPin.SetStatus(Pin::LOW);
+		}
+	}
+	m_OutputPin.SetStatus(Pin::HIGH);
 }
 
 void OR2::Draw(Interface* pInterface)

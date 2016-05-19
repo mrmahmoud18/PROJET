@@ -11,7 +11,14 @@ NOR2::NOR2(const GraphicsInfo & r_GfxInfo, std::string r_Label) : Gate(r_GfxInfo
 
 void NOR2::Operate()
 {
-
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (m_InputPins[i].GetStatus() == Pin::HIGH)
+		{
+			m_OutputPin.SetStatus(Pin::LOW);
+		}
+	}
+	m_OutputPin.SetStatus(Pin::HIGH);
 }
 
 void NOR2::Draw(Interface* pInterface)

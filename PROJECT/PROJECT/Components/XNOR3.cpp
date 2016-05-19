@@ -12,7 +12,22 @@ XNOR3::XNOR3(const GraphicsInfo & r_GfxInfo, std::string r_Label) : Gate(r_GfxIn
 
 void XNOR3::Operate()
 {
-
+	int cont = 0;
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (m_InputPins[i].GetStatus() == Pin::HIGH)
+		{
+			cont++;
+		}
+	}
+	if (cont == 2 || cont == 0)
+	{
+		m_OutputPin.SetStatus(Pin::HIGH);
+	}
+	else
+	{
+		m_OutputPin.SetStatus(Pin::LOW);
+	}
 }
 
 void XNOR3::Draw(Interface * pInterface)

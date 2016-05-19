@@ -12,7 +12,15 @@ NAND3::NAND3(const GraphicsInfo & r_GfxInfo, std::string r_Label) : Gate(r_GfxIn
 
 void NAND3::Operate()
 {
-
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (m_InputPins[i].GetStatus() == Pin::LOW)
+		{
+			m_OutputPin.SetStatus(Pin::HIGH);
+			return;
+		}
+	}
+	m_OutputPin.SetStatus(Pin::LOW);
 }
 
 void NAND3::Draw(Interface * pInterface)
