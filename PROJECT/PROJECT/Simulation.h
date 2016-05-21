@@ -25,8 +25,6 @@ public:
 	static void SetSWITCHStatus(std::vector<SWITCH*> &v ,std::vector<Pin::Status>Values);
 	static std::vector<Pin::Status> GetLEDStatus(std::vector<LED*> v);
 	static std::vector<int>StatusToNumber(std::vector<Pin::Status> v);
-	static std::vector<std::vector<int> >TruthTableData;
-	static std::vector<std::string>AllCompinations;
-	static void TruthTable(std::vector<Component*> ComponentList);
+	static std::vector<std::vector<int> >TruthTable;
 };
 
