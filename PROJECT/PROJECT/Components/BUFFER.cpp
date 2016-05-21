@@ -8,10 +8,7 @@ BUFFER::BUFFER(const GraphicsInfo & r_GfxInfo, std::string r_Label): Gate(r_GfxI
 	SetLabel(r_Label);
 }
 
-void BUFFER::Operate()
-{
 
-}
 
 void BUFFER::Draw(Interface* pInterface)
 {
