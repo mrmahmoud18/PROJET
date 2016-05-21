@@ -7,6 +7,7 @@
 class Component;
 class LED;
 class SWITCH;
+//class Pin;
 
 class Simulation
 {
