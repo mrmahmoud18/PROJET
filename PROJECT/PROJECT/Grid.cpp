@@ -374,25 +374,73 @@ void Grid::RemoveSWITCH(SWITCH * r_pSWITCH)
 	}
 }
 
-
-void Grid::DeleteComponent(std::pair<int, int> r_componentCenter)
+void Grid::RemoveLED(LED * r_pLED)
 {
+	std::pair<int, int>Center = std::make_pair(r_pLED->GetGraphicsInfo().GetX(), r_pLED->GetGraphicsInfo().GetY());
+	if (r_pLED->GetInputPin() != Nodes[Center.first][Center.second].pPin)
+	{
+		throw;
+	}
 	for (int i = -6; i <= 6; i++)
 	{
 		for (int j = -6; j <= 6; j++)
 		{
-			if (Nodes[i + r_componentCenter.second][j + r_componentCenter.first].m_Stat == Node::GATE || Nodes[i + r_componentCenter.second][j + r_componentCenter.first].m_Stat == Node::NOCONNECTION || Nodes[i + r_componentCenter.second][j + r_componentCenter.first].m_Stat == Node::PINPOINT)
+			if (Nodes[i + Center.second][j + Center.first].m_Stat == Node::GATE || Nodes[i + Center.second][j + Center.first].m_Stat == Node::NOCONNECTION || Nodes[i + Center.second][j + Center.first].m_Stat == Node::PINPOINT)
 			{
-				Nodes[i + r_componentCenter.second][j + r_componentCenter.first].m_Stat = Node::NOTHING;
-				Nodes[i + r_componentCenter.second][j + r_componentCenter.first].pComp = NULL;
-				Nodes[i + r_componentCenter.second][j + r_componentCenter.first].pPin = NULL;
+				Nodes[i + Center.second][j + Center.first].m_Stat = Node::NOTHING;
+				Nodes[i + Center.second][j + Center.first].pComp = NULL;
+				Nodes[i + Center.second][j + Center.first].pPin = NULL;
 			}
 		}
 	}
 }
 
-void Grid::DeleteConnection(std::vector< std::pair<int, int> > Path)
+void Grid::RemoveGate(Gate * r_pGate)
 {
+	std::pair<int, int>Center = std::make_pair(r_pGate->GetGraphicsInfo().GetX(), r_pGate->GetGraphicsInfo().GetY());
+	std::vector<InputPin>& temp = r_pGate->GetInputPins();
+	if (r_pGate->GetOutputPin() != Nodes[Center.first][Center.second].pPin)
+	{
+		throw;
+	}
+
+	if (temp.size() == 2)
+	{
+		if (Nodes[Center.first - 4][Center.second - 1].pPin != &(temp[0]) || Nodes[Center.first - 4][Center.second + 1].pPin != &(temp[1]))
+		{
+			throw;
+		}
+	}
+	else
+	{
+		if (Nodes[Center.first - 4][Center.second - 1].pPin != &(temp[0]) || Nodes[Center.first - 4][Center.second].pPin != &(temp[1]) || Nodes[Center.first - 4][Center.second + 1].pPin != &(temp[2]))
+		{
+			throw;
+		}
+	}
+
+	for (int i = -6; i <= 6; i++)
+	{
+		for (int j = -6; j <= 6; j++)
+		{
+			if (Nodes[i + Center.second][j + Center.first].m_Stat == Node::GATE || Nodes[i + Center.second][j + Center.first].m_Stat == Node::NOCONNECTION || Nodes[i + Center.second][j + Center.first].m_Stat == Node::PINPOINT)
+			{
+				Nodes[i + Center.second][j + Center.first].m_Stat = Node::NOTHING;
+				Nodes[i + Center.second][j + Center.first].pComp = NULL;
+				Nodes[i + Center.second][j + Center.first].pPin = NULL;
+			}
+		}
+	}
+}
+
+
+void Grid::RemoveConnection(Connection * r_pConnection)
+{
+	std::vector<std::pair<int, int> >Path = r_pConnection->GetPath();
+	if (Nodes[Path.front().first][Path.front().second].pPin != r_pConnection->GetInputPin() || Nodes[Path.back().first][Path.back().second].pPin != r_pConnection->GetOutPin())
+	{
+		throw;
+	}
 	int TempY, TempX, Count = 1;
 	TempX = Path.front().first;
 	TempY = Path.front().second;

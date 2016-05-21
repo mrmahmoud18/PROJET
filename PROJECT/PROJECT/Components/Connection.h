@@ -22,4 +22,6 @@ public:
 	virtual bool IsValidToSimulate();
 	virtual void ClearStatus();
 	std::vector<std::pair<int, int> >GetPath();
+	Pin*GetInputPin();
+	Pin*GetOutPin();
 };

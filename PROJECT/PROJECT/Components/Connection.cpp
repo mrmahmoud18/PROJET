@@ -47,3 +47,13 @@ std::vector<std::pair<int, int>> Connection::GetPath()
 {
 	return m_Path;
 }
+
+Pin * Connection::GetInputPin()
+{
+	return m_InputPin ;
+}
+
+Pin * Connection::GetOutPin()
+{
+	return m_OutputPin;
+}

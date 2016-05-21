@@ -24,8 +24,8 @@ public:
 	void AddConnection(Connection * r_pConnection);
 	void RemoveSWITCH(SWITCH * r_pSWITCH);
 	void RemoveLED(LED * r_pLED);
-    void DeleteComponent(std::pair<int,int> Center);
-    void DeleteConnection(std::vector< std::pair<int,int> > Path);
+	void RemoveGate(Gate *r_pGate);
+    void RemoveConnection(Connection * r_pConnection);
 	Component* GetComponent(std::pair<int, int> r_Point);
 	Pin* GetPin(std::pair<int, int> r_Point);
 
