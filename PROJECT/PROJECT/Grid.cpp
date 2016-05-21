@@ -2,6 +2,7 @@
 #include"Components/LED.h"
 #include "Components/Gate.h"
 #include "Components/SWITCH.h"
+#include "Components\Connection.h"
 
 Grid::Grid(int r_x, int r_y) {
 	Xsize = r_x;
@@ -177,73 +178,76 @@ bool Grid::IsValidCenter(std::pair<int, int> r_componentCenter)
 	return true;
 }
 
-void Grid::AddSwitch(std::pair<int, int> r_Center, SWITCH * r_pComp)
+void Grid::AddSwitch(SWITCH * r_pSWITCH)
 {
+	std::pair<int, int>Center = std::make_pair(r_pSWITCH->GetGraphicsInfo().GetX(), r_pSWITCH->GetGraphicsInfo().GetY());
 	for (int i = -3; i <= 3; i++)
 	{
 		for (int j = -2; j <= 2; j++)
 		{
-			Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::GATE;
-			Nodes[i + r_Center.first][j + r_Center.second].pComp = r_pComp;
+			Nodes[i + Center.first][j + Center.second].m_Stat = Node::GATE;
+			Nodes[i + Center.first][j + Center.second].pComp = r_pSWITCH;
 		}
 	}
-	Nodes[r_Center.first + 4][r_Center.second].m_Stat = Node::PINPOINT;
-	Nodes[r_Center.first + 4][r_Center.second].pPin = r_pComp ->GetOutputPin();
+	Nodes[Center.first + 4][Center.second].m_Stat = Node::PINPOINT;
+	Nodes[Center.first + 4][Center.second].pPin = r_pSWITCH ->GetOutputPin();
 	for (int i = -6; i <= 6; i++)
 	{
 		for (int j = -6; j <= 6; j++)
 		{
-			if (Nodes[i + r_Center.first][j + r_Center.second].m_Stat == Node::NOTHING)
+			if (Nodes[i + Center.first][j + Center.second].m_Stat == Node::NOTHING)
 			{
-				Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::NOCONNECTION;
+				Nodes[i + Center.first][j + Center.second].m_Stat = Node::NOCONNECTION;
 			}
 		}
 	}
 }
 
-void Grid::AddLed(std::pair<int, int> r_Center, LED * r_pComp)
+void Grid::AddLed(LED * r_pLED)
 {
+	std::pair<int, int>Center = std::make_pair(r_pLED->GetGraphicsInfo().GetX(), r_pLED->GetGraphicsInfo().GetY());
 	for (int i = -3; i <= 3; i++)
 	{
 		for (int j = -2; j <= 2; j++)
 		{
-			Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::GATE;
-			Nodes[i + r_Center.first][j + r_Center.second].pComp = r_pComp;
+			Nodes[i + Center.first][j + Center.second].m_Stat = Node::GATE;
+			Nodes[i + Center.first][j + Center.second].pComp = r_pLED;
 		}
 	}
-	Nodes[r_Center.first - 4][r_Center.second].m_Stat = Node::PINPOINT;
-	Nodes[r_Center.first - 4][r_Center.second].pPin = r_pComp->GetInputPin();
+	Nodes[Center.first - 4][Center.second].m_Stat = Node::PINPOINT;
+	Nodes[Center.first - 4][Center.second].pPin = r_pLED->GetInputPin();
 	for (int i = -6; i <= 6; i++)
 	{
 		for (int j = -6; j <= 6; j++)
 		{
-			if (Nodes[i + r_Center.first][j + r_Center.second].m_Stat == Node::NOTHING)
+			if (Nodes[i + Center.first][j + Center.second].m_Stat == Node::NOTHING)
 			{
-				Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::NOCONNECTION;
+				Nodes[i + Center.first][j + Center.second].m_Stat = Node::NOCONNECTION;
 			}
 		}
 	}
 }
 
-void Grid::AddGate(std::pair<int, int> r_Center, Gate * r_pComp)
+void Grid::AddGate(Gate * r_pGate)
 {
+	std::pair<int, int>Center = std::make_pair(r_pGate->GetGraphicsInfo().GetX(), r_pGate->GetGraphicsInfo().GetY());
 	for (int i = -3; i <= 3; i++)
 	{
 		for (int j = -2; j <= 2; j++)
 		{
-			Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::GATE;
-			Nodes[i + r_Center.first][j + r_Center.second].pComp = r_pComp;
+			Nodes[i + Center.first][j + Center.second].m_Stat = Node::GATE;
+			Nodes[i + Center.first][j + Center.second].pComp = r_pGate;
 		}
 	}
 
-	Nodes[r_Center.first + 4][r_Center.second].m_Stat = Node::PINPOINT;
-	Nodes[r_Center.first - 4][r_Center.second].m_Stat = Node::PINPOINT;
-	Nodes[r_Center.first - 4][r_Center.second + 1].m_Stat = Node::PINPOINT;
-	Nodes[r_Center.first - 4][r_Center.second - 1].m_Stat = Node::PINPOINT;
+	Nodes[Center.first + 4][Center.second].m_Stat = Node::PINPOINT;
+	Nodes[Center.first - 4][Center.second].m_Stat = Node::PINPOINT;
+	Nodes[Center.first - 4][Center.second + 1].m_Stat = Node::PINPOINT;
+	Nodes[Center.first - 4][Center.second - 1].m_Stat = Node::PINPOINT;
 
-	Nodes[r_Center.first + 4][r_Center.second].pPin = r_pComp->GetOutputPin();
-	Nodes[r_Center.first + 4][r_Center.second].pComp = r_pComp;
-	std::vector<InputPin>& temp = dynamic_cast<Gate*>(r_pComp)->GetInputPins();
+	Nodes[Center.first + 4][Center.second].pPin = r_pGate->GetOutputPin();
+	Nodes[Center.first + 4][Center.second].pComp = r_pGate;
+	std::vector<InputPin>& temp = dynamic_cast<Gate*>(r_pGate)->GetInputPins();
 	std::vector<InputPin>::iterator min = temp.begin();
 	std::vector<InputPin>::iterator it = temp.begin();
 	for (unsigned int i = 1; i < temp.size(); i++)
@@ -262,35 +266,36 @@ void Grid::AddGate(std::pair<int, int> r_Center, Gate * r_pComp)
 
 	if (temp.size() == 2)
 	{
-		Nodes[r_Center.first - 4][r_Center.second - 1].pPin = &(temp[0]);
-		Nodes[r_Center.first - 4][r_Center.second - 1].pComp = r_pComp;
-		Nodes[r_Center.first - 4][r_Center.second + 1].pPin = &(temp[1]);
-		Nodes[r_Center.first - 4][r_Center.second + 1].pComp = r_pComp;
+		Nodes[Center.first - 4][Center.second - 1].pPin = &(temp[0]);
+		Nodes[Center.first - 4][Center.second - 1].pComp = r_pGate;
+		Nodes[Center.first - 4][Center.second + 1].pPin = &(temp[1]);
+		Nodes[Center.first - 4][Center.second + 1].pComp = r_pGate;
 	}
 	else
 	{
-		Nodes[r_Center.first - 4][r_Center.second - 1].pPin = &(temp[0]);
-		Nodes[r_Center.first - 4][r_Center.second - 1].pComp = r_pComp;
-		Nodes[r_Center.first - 4][r_Center.second].pPin = &(temp[1]);
-		Nodes[r_Center.first - 4][r_Center.second].pComp = r_pComp;
-		Nodes[r_Center.first - 4][r_Center.second + 1].pPin = &(temp[2]);
-		Nodes[r_Center.first - 4][r_Center.second + 1].pComp = r_pComp;
+		Nodes[Center.first - 4][Center.second - 1].pPin = &(temp[0]);
+		Nodes[Center.first - 4][Center.second - 1].pComp = r_pGate;
+		Nodes[Center.first - 4][Center.second].pPin = &(temp[1]);
+		Nodes[Center.first - 4][Center.second].pComp = r_pGate;
+		Nodes[Center.first - 4][Center.second + 1].pPin = &(temp[2]);
+		Nodes[Center.first - 4][Center.second + 1].pComp = r_pGate;
 	}
 	for (int i = -6; i <= 6; i++)
 	{
 		for (int j = -6; j <= 6; j++)
 		{
-			if (Nodes[i + r_Center.first][j + r_Center.second].m_Stat == Node::NOTHING)
+			if (Nodes[i + Center.first][j + Center.second].m_Stat == Node::NOTHING)
 			{
-				Nodes[i + r_Center.first][j + r_Center.second].m_Stat = Node::NOCONNECTION;
+				Nodes[i + Center.first][j + Center.second].m_Stat = Node::NOCONNECTION;
 			}
 		}
 	}
 }
 
-void Grid::AddConnection(const std::vector< std::pair<int, int> >& Path, Component * r_pComp)
+void Grid::AddConnection(Connection * r_pConnection)
 {
-	int TempY, TempX,Count=1;
+	std::vector< std::pair<int, int> >Path = r_pConnection->GetPath();
+	int TempY, TempX, Count = 1;
 	TempX = Path.front().first;
 	TempY = Path.front().second;
 	do
@@ -307,7 +312,7 @@ void Grid::AddConnection(const std::vector< std::pair<int, int> >& Path, Compone
 			}
 			if (Nodes[TempX][TempY].pComp == NULL)
 			{
-				Nodes[TempX][TempY].pComp = r_pComp;
+				Nodes[TempX][TempY].pComp = r_pConnection;
 			}
 			else
 			{
@@ -332,7 +337,7 @@ void Grid::AddConnection(const std::vector< std::pair<int, int> >& Path, Compone
 			}
 			if (Nodes[TempX][TempY].pComp == NULL)
 			{
-				Nodes[TempX][TempY].pComp = r_pComp;
+				Nodes[TempX][TempY].pComp = r_pConnection;
 			}
 			else
 			{
@@ -347,6 +352,28 @@ void Grid::AddConnection(const std::vector< std::pair<int, int> >& Path, Compone
 
 	} while (TempX != Path.back().first || TempY != Path.back().second);
 }
+
+void Grid::RemoveSWITCH(SWITCH * r_pSWITCH)
+{
+	std::pair<int, int> Center = std::make_pair(r_pSWITCH->GetGraphicsInfo().GetX(), r_pSWITCH->GetGraphicsInfo().GetY());
+	if (r_pSWITCH->GetOutputPin() != Nodes[Center.first + 4][Center.second].pPin)
+	{
+		throw;
+	}
+	for (int i = -6; i <= 6; i++)
+	{
+		for (int j = -6; j <= 6; j++)
+		{
+			if (Nodes[i + Center.second][j + Center.first].m_Stat == Node::GATE || Nodes[i + Center.second][j + Center.first].m_Stat == Node::NOCONNECTION || Nodes[i + Center.second][j + Center.first].m_Stat == Node::PINPOINT)
+			{
+				Nodes[i + Center.second][j + Center.first].m_Stat = Node::NOTHING;
+				Nodes[i + Center.second][j + Center.first].pComp = NULL;
+				Nodes[i + Center.second][j + Center.first].pPin = NULL;
+			}
+		}
+	}
+}
+
 
 void Grid::DeleteComponent(std::pair<int, int> r_componentCenter)
 {

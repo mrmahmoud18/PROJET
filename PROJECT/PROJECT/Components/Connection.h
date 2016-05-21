@@ -11,7 +11,7 @@ class Connection: public Component
 private:
     Pin* m_InputPin;
     Pin* m_OutputPin;
-    std::vector< std::pair<int,int> > m_Vertices;
+    std::vector< std::pair<int,int> > m_Path;
 
 public:
 	Connection(Pin* r_InputPin, Pin* r_OutputPin, const std::vector< std::pair<int,int> >& r_Vertices);
@@ -21,4 +21,5 @@ public:
 	virtual bool IsValidToOperate();
 	virtual bool IsValidToSimulate();
 	virtual void ClearStatus();
+	std::vector<std::pair<int, int> >GetPath();
 };

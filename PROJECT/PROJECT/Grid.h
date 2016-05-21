@@ -10,6 +10,7 @@ class InputPin;
 class SWITCH;
 class LED;
 class Gate;
+class Connection;
 
 class Grid
 {
@@ -17,10 +18,12 @@ public:
     Grid(int r_X, int r_Y);
     std::vector< std::pair<int,int> > FindPath(std::pair<int,int> Point1, std::pair<int,int> Point2);
     bool IsValidCenter(std::pair<int,int> Center);
-	void AddSwitch(std::pair<int, int> r_Center, SWITCH * r_pComp);
-	void AddLed(std::pair<int, int> r_Center, LED * r_pComp);
-	void AddGate(std::pair<int, int> r_Center, Gate * r_pComp);
-	void AddConnection(const std::vector< std::pair<int,int> >& Path, Component* r_pComp);
+	void AddSwitch(SWITCH * r_pSWITCH);
+	void AddLed(LED * r_pLED);
+	void AddGate(Gate * r_pGate);
+	void AddConnection(Connection * r_pConnection);
+	void RemoveSWITCH(SWITCH * r_pSWITCH);
+	void RemoveLED(LED * r_pLED);
     void DeleteComponent(std::pair<int,int> Center);
     void DeleteConnection(std::vector< std::pair<int,int> > Path);
 	Component* GetComponent(std::pair<int, int> r_Point);
