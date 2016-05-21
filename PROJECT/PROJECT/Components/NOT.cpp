@@ -10,7 +10,14 @@ NOT::NOT(const GraphicsInfo & r_GfxInfo, std::string r_Label): Gate(r_GfxInfo, 5
 
 void NOT::Operate()
 {
-
+	if (m_InputPins[0].GetStatus() == Pin::HIGH)
+	{
+		m_OutputPin.SetStatus(Pin::LOW);
+	}
+	else
+	{
+		m_OutputPin.SetStatus(Pin::HIGH);
+	}
 }
 
 void NOT::Draw(Interface* pInterface)

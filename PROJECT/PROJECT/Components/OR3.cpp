@@ -12,7 +12,14 @@ OR3::OR3(const GraphicsInfo & r_GfxInfo, std::string r_Label) : Gate(r_GfxInfo, 
 
 void OR3::Operate()
 {
-
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (m_InputPins[i].GetStatus() == Pin::LOW)
+		{
+			m_OutputPin.SetStatus(Pin::LOW);
+		}
+	}
+	m_OutputPin.SetStatus(Pin::HIGH);
 }
 
 void OR3::Draw(Interface * pInterface)

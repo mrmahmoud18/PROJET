@@ -11,7 +11,15 @@ NAND2::NAND2(const GraphicsInfo & r_GfxInfo, std::string r_Label) : Gate(r_GfxIn
 
 void NAND2::Operate()
 {
-
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (m_InputPins[i].GetStatus() == Pin::LOW)
+		{
+			m_OutputPin.SetStatus(Pin::HIGH);
+			return;
+		}
+	}
+	m_OutputPin.SetStatus(Pin::LOW);
 }
 
 void NAND2::Draw(Interface* pInterface)

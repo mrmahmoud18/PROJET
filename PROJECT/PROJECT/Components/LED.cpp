@@ -32,3 +32,18 @@ void LED::Draw(Interface* pInterface)
     pInterface->DrawComponent(m_GfxInfo, "LED", GetStatus());
     m_InputPin.Draw(pInterface);
 }
+
+bool LED::IsValidToOperate()
+{
+	return (m_InputPin.GetStatus() != Pin::FLOATING);
+}
+
+bool LED::IsValidToSimulate()
+{
+	return m_InputPin.IsValidToSimulate();
+}
+
+void LED::ClearStatus()
+{
+	m_InputPin.SetStatus(Pin::FLOATING);
+}

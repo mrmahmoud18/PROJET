@@ -2,10 +2,15 @@
 
 #include<vector>
 #include<queue>
+#include<algorithm>
 
 class Component;
 class Pin;
 class InputPin;
+class SWITCH;
+class LED;
+class Gate;
+class Connection;
 
 class Grid
 {
@@ -14,10 +19,14 @@ public:
 
     std::vector< std::pair<int,int> > FindPath(std::pair<int,int> Point1, std::pair<int,int> Point2);
     bool IsValidCenter(std::pair<int,int> Center);
-    void AddComponent(std::pair<int,int> Center, Component* r_pComp);
-	void AddConnection(const std::vector< std::pair<int,int> >& Path, Component* r_pComp);
-    void DeleteComponent(std::pair<int,int> Center);
-    void DeleteConnection(std::vector< std::pair<int,int> > Path);
+	void AddSwitch(SWITCH * r_pSWITCH);
+	void AddLed(LED * r_pLED);
+	void AddGate(Gate * r_pGate);
+	void AddConnection(Connection * r_pConnection);
+	void RemoveSWITCH(SWITCH * r_pSWITCH);
+	void RemoveLED(LED * r_pLED);
+	void RemoveGate(Gate *r_pGate);
+    void RemoveConnection(Connection * r_pConnection);
 	Component* GetComponent(std::pair<int, int> r_Point);
 	Pin* GetPin(std::pair<int, int> r_Point);
 
@@ -33,7 +42,7 @@ private:
     std::vector< std::vector<Node> > Nodes;
 
 	std::vector< std::pair<int, int> > CreateThePath(std::pair<int, int> Point1, std::pair<int, int> Point2);
-	bool IsValidPoint(int r_TempX, int r_TempY, std::vector< std::vector<bool> > r_Visited);
+	bool IsValidPoint(int r_TempX, int r_TempY, bool**r_Visited);
 	bool ISValidState(int r_Tempx, int r_TempY, std::queue< Grid::Node>r_TempQueue);
 	void ClearQueue(std::queue < Grid::Node >& r_TempQueue);
 	void ClearParent();

@@ -12,7 +12,15 @@ AND3::AND3(const GraphicsInfo & r_GfxInfo, std::string r_Label): Gate(r_GfxInfo,
 
 void AND3::Operate()
 {
-
+	for (unsigned int i = 0; i < m_InputPins.size(); i++)
+	{
+		if (m_InputPins[i].GetStatus() == Pin::LOW)
+		{
+			m_OutputPin.SetStatus(Pin::LOW);
+			return;
+		}
+	}
+	m_OutputPin.SetStatus(Pin::HIGH);
 }
 
 void AND3::Draw(Interface * pInterface)
