@@ -11,6 +11,7 @@ class Grid
 {
 public:
     Grid(int r_X, int r_Y);
+
     std::vector< std::pair<int,int> > FindPath(std::pair<int,int> Point1, std::pair<int,int> Point2);
     bool IsValidCenter(std::pair<int,int> Center);
     void AddComponent(std::pair<int,int> Center, Component* r_pComp);
